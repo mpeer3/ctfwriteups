@@ -1,0 +1,20 @@
+Cronos 10.10.10.13
+=================
+- 22: SSH
+- 53: Bind
+- 80: Apache httpd
+
+- host -l cronos.htb 10.10.10.13
+   cronos.htb name server ns1.cronos.htb.
+   cronos.htb has address 10.10.10.13
+   admin.cronos.htb has address 10.10.10.13
+   ns1.cronos.htb has address 10.10.10.13
+   www.cronos.htb has address 10.10.10.13
+- cronos.htb
+    => Referenz auf Laravel 7
+- admin.cronos.htb
+    => Login Screen
+- gobuster dir -x txt,bak,ext,php -u http://admin.cronos.htb -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt 
+    => /welcome.php
+    
+ TBC
