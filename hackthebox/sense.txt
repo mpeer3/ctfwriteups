@@ -1,0 +1,11 @@
+Sense
+==================
+
+- 80: lhttp ighthttpd 1.4.35
+- 443: SSL
+
+- pfsense Login
+- ZAP dirbuster: /system-users.txt
+   =>rohit/pfsense ("company defaults")
+- pfsense 2.1.3
+  => Exploit #43560
