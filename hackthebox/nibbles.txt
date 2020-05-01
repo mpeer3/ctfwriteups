@@ -1,0 +1,11 @@
+Nibbles
+============
+- 22, 80
+- Referenz im HTML Sourcecode auf Titelseite
+   =>/nibbleblog
+   => admin.php (admin/nibbles)
+- MSF: exploit/multi/http/nibbleblog_file_upload
+- cat /home/nibbler/user.txt
+- 4.4.0-104-generic Ubuntu 16.04.3
+- https://www.exploit-db.com/exploits/44298
+- cat /root/root.txt
